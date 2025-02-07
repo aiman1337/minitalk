@@ -6,7 +6,7 @@
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:30:52 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/04 11:22:16 by ahouass          ###   ########.fr       */
+/*   Updated: 2025/02/07 11:25:19 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void	signal_handler(int signum)
 
 int	main(void)
 {
-	pid_t	pid;
-
-	pid = getpid();
-	ft_putnbr_fd(pid, 1);
+	ft_putnbr_fd(getpid(), 1);
 	write(1, "\n", 1);
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);

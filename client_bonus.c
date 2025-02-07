@@ -6,7 +6,7 @@
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 19:21:12 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/06 11:45:47 by ahouass          ###   ########.fr       */
+/*   Updated: 2025/02/06 13:46:37 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ int	main(int argc, char **argv)
 	pid_t	pid;
 
 	i = 0;
+	if (argc != 3)
+		exit(EXIT_FAILURE);
 	pid = ft_atoi(argv[1]);
-	if (argc != 3 || pid <= 0)
+	if (pid <= 0)
 		exit(EXIT_FAILURE);
 	signal(SIGUSR1, signal_acknowledged);
 	while (argv[2][i])

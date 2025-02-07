@@ -6,7 +6,7 @@
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:18:41 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/06 11:42:32 by ahouass          ###   ########.fr       */
+/*   Updated: 2025/02/07 11:31:22 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,18 @@ void	ft_is_valid(const char *str)
 
 int	ft_atoi(const char *str)
 {
-	int		sign;
 	long	res;
 
 	res = 0;
-	sign = 1;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign = -1;
+	if (*str == '+')
 		str++;
-	}
 	ft_is_valid(str);
 	while (*str >= '0' && *str <= '9')
 	{
 		res = (res * 10) + (*str - '0');
 		str++;
 	}
-	return (res * sign);
+	return (res);
 }
