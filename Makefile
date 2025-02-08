@@ -1,6 +1,9 @@
 SERVER = server
 CLIENT = client
 
+SERVER_BNS = server_bonus
+CLIENT_BNS = client_bonus
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
@@ -22,8 +25,8 @@ all: server client
 	$(CC) $(CFLAGS) -c $< -o $@
 
 bonus: $(OBJS_SERVER_BNS) $(OBJS_CLIENT_BNS)
-	$(CC) $(OBJS_SERVER_BNS) -o ${SERVER}
-	$(CC) $(OBJS_CLIENT_BNS) -o ${CLIENT}
+	$(CC) $(OBJS_SERVER_BNS) -o ${SERVER_BNS}
+	$(CC) $(OBJS_CLIENT_BNS) -o ${CLIENT_BNS}
 	@touch bonus
 
 server client: $(OBJS_SERVER) $(OBJS_CLIENT)
@@ -34,7 +37,7 @@ clean:
 	rm -f $(OBJS_SERVER) $(OBJS_SERVER_BNS) $(OBJS_CLIENT) $(OBJS_CLIENT_BNS) bonus
 
 fclean: clean
-	rm -f server client
+	rm -f server client server_bonus client_bonus
 
 re: fclean all
 

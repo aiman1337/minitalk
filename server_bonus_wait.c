@@ -6,26 +6,20 @@
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:30:52 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/08 16:37:11 by ahouass          ###   ########.fr       */
+/*   Updated: 2025/02/08 11:10:15 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-pid_t	g_pid = 0;
-
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
+	pid_t		client_pid;
 	static int	bit;
 	static char	c;
 
 	(void)context;
-	if (g_pid != info->si_pid)
-	{
-		c = 0;
-		bit = 0;
-		g_pid = info->si_pid;
-	}
+	client_pid = info->si_pid;
 	if (signum == SIGUSR1)
 		c = (c << 1);
 	else if (signum == SIGUSR2)
@@ -34,8 +28,8 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	if (bit == 8)
 	{
 		write(1, &c, 1);
-		if (c == 0)
-			kill(g_pid, SIGUSR1);
+		if (c == '\n')
+			kill(client_pid, SIGUSR1);
 		bit = 0;
 		c = 0;
 	}

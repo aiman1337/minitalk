@@ -6,7 +6,7 @@
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 19:21:12 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/06 13:46:37 by ahouass          ###   ########.fr       */
+/*   Updated: 2025/02/08 15:45:34 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static void	signal_acknowledged(int signum)
 void	ft_send_char(int pid, char c)
 {
 	int	i;
-
+	unsigned char byte = (unsigned char)c;
+	
 	i = 7;
 	while (i >= 0)
 	{
-		if ((c >> i) & 1)
+		if ((byte >> i) & 1)
 		{
 			if (kill(pid, SIGUSR2) == -1)
 			{
@@ -47,7 +48,7 @@ void	ft_send_char(int pid, char c)
 			}
 		}
 		i--;
-		usleep(100);
+		usleep(600);
 	}
 }
 
