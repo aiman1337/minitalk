@@ -6,7 +6,7 @@
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 19:21:12 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/08 15:45:34 by ahouass          ###   ########.fr       */
+/*   Updated: 2025/02/10 22:13:34 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ static void	signal_acknowledged(int signum)
 void	ft_send_char(int pid, char c)
 {
 	int	i;
-	unsigned char byte = (unsigned char)c;
 	
 	i = 7;
 	while (i >= 0)
 	{
-		if ((byte >> i) & 1)
+		if ((c >> i) & 1)
 		{
 			if (kill(pid, SIGUSR2) == -1)
 			{
@@ -48,7 +47,21 @@ void	ft_send_char(int pid, char c)
 			}
 		}
 		i--;
-		usleep(600);
+		usleep(300);
+	}
+}
+
+void	ft_send_int(int pid, int num)
+{
+	char	*ptr;
+	int		i;
+
+	ptr = (char *)&num; // Treat the integer as a byte array
+	i = 0;
+	while (i < 4)
+	{
+		ft_send_char(pid, ptr[i]); // Send each byte
+		i++;
 	}
 }
 
@@ -61,13 +74,12 @@ int	main(int argc, char **argv)
 	if (argc != 3)
 		exit(EXIT_FAILURE);
 	pid = ft_atoi(argv[1]);
-	if (pid <= 0)
+	if (pid <= 0 || !*argv[2])
 		exit(EXIT_FAILURE);
 	signal(SIGUSR1, signal_acknowledged);
+	ft_send_int(pid, ft_strlen(argv[2]));
 	while (argv[2][i])
 		ft_send_char(pid, argv[2][i++]);
-	ft_send_char(pid, '\0');
-	ft_send_char(pid, '\n');
 	while (!g_ack_received)
 		pause();
 	return (0);

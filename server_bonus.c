@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 12:30:52 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/08 16:37:11 by ahouass          ###   ########.fr       */
+/*   Created: 2025/02/10 21:45:24 by ahouass           #+#    #+#             */
+/*   Updated: 2025/02/10 22:26:15 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,30 @@ pid_t	g_pid = 0;
 
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
-	static int	bit;
-	static char	c;
+	static int		bit = 0;
+	static char		c = 0;
+	static int		len = 0;
+	static int		byte_count = 0;
+	static char		*buffer = NULL;
+	static int		index = 0;
 
 	(void)context;
-	if (g_pid != info->si_pid)
+	if (g_pid != 0 && g_pid != info->si_pid)
 	{
-		c = 0;
-		bit = 0;
-		g_pid = info->si_pid;
+    	bit = 0;
+    	c = 0;
+    	len = 0;
+    	byte_count = 0;
+    	index = 0;
+    	if (buffer)
+    	{
+        	free(buffer);
+        	buffer = NULL;
+    	}
+    	g_pid = info->si_pid;
 	}
+	if (g_pid == 0)
+		g_pid = info->si_pid;
 	if (signum == SIGUSR1)
 		c = (c << 1);
 	else if (signum == SIGUSR2)
@@ -33,10 +47,42 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	bit++;
 	if (bit == 8)
 	{
-		write(1, &c, 1);
-		if (c == 0)
-			kill(g_pid, SIGUSR1);
 		bit = 0;
+		if (byte_count < 4)
+		{
+			((char *)&len)[byte_count] = c;
+			byte_count++;
+			if (byte_count == 4)
+			{
+				if (len <= 0 || len > 100000)
+				{
+					g_pid = 0;
+					return;
+				}
+				buffer = malloc(len + 1);
+				if (!buffer)
+					exit(EXIT_FAILURE);
+				buffer[len] = '\0';
+			}
+		}
+		else if (buffer)
+		{
+			buffer[index++] = c;
+			if (index == len)
+			{
+				ft_putstr_fd(buffer, 1);
+				write(1, "\n", 1);
+				free(buffer);
+				buffer = NULL;
+				kill(info->si_pid, SIGUSR1);
+    			g_pid = 0;
+    			bit = 0;
+    			c = 0;
+    			len = 0;
+    			byte_count = 0;
+    			index = 0;
+			}
+		}
 		c = 0;
 	}
 }
