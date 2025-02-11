@@ -6,7 +6,7 @@
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 19:21:12 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/10 22:13:34 by ahouass          ###   ########.fr       */
+/*   Updated: 2025/02/11 11:27:29 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	signal_acknowledged(int signum)
 void	ft_send_char(int pid, char c)
 {
 	int	i;
-	
+
 	i = 7;
 	while (i >= 0)
 	{
@@ -56,11 +56,11 @@ void	ft_send_int(int pid, int num)
 	char	*ptr;
 	int		i;
 
-	ptr = (char *)&num; // Treat the integer as a byte array
+	ptr = (char *)&num;
 	i = 0;
 	while (i < 4)
 	{
-		ft_send_char(pid, ptr[i]); // Send each byte
+		ft_send_char(pid, ptr[i]);
 		i++;
 	}
 }
@@ -74,7 +74,7 @@ int	main(int argc, char **argv)
 	if (argc != 3)
 		exit(EXIT_FAILURE);
 	pid = ft_atoi(argv[1]);
-	if (pid <= 0 || !*argv[2])
+	if (pid <= 1 || !*argv[2])
 		exit(EXIT_FAILURE);
 	signal(SIGUSR1, signal_acknowledged);
 	ft_send_int(pid, ft_strlen(argv[2]));

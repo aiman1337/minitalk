@@ -7,11 +7,11 @@ CLIENT_BNS = client_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS_SERVER = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c utils.c server.c
-SRCS_CLIENT = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c utils.c client.c
+SRCS_SERVER = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c server.c utils.c
+SRCS_CLIENT = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c client.c
 
-SRCS_SERVER_BNS = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c utils.c server_bonus.c
-SRCS_CLIENT_BNS = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c utils.c client_bonus.c
+SRCS_SERVER_BNS = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c server_bonus.c utils_bonus.c
+SRCS_CLIENT_BNS = ft_atoi.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c client_bonus.c
 
 OBJS_SERVER = $(SRCS_SERVER:.c=.o)
 OBJS_CLIENT = $(SRCS_CLIENT:.c=.o)

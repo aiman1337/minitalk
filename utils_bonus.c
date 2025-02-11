@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahouass <ahouass@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:49:33 by ahouass           #+#    #+#             */
-/*   Updated: 2025/02/11 12:31:55 by ahouass          ###   ########.fr       */
+/*   Created: 2025/02/11 12:31:50 by ahouass           #+#    #+#             */
+/*   Updated: 2025/02/11 13:03:49 by ahouass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	handle_message_content(siginfo_t *info)
 		write(1, "\n", 1);
 		free(g_server.buffer);
 		g_server.buffer = NULL;
+		kill(info->si_pid, SIGUSR1);
 		reset_server_state();
 	}
 }
